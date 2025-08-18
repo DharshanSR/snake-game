@@ -31,7 +31,10 @@ score_font = pygame.font.SysFont("comicsansms", 35)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Snake Game')
 
+
+
 # Button class for Start, Restart, Finish
+
 
 class Button:
 
@@ -64,13 +67,19 @@ class Button:
         )
 
 
+
+
 # Function to display score
+
 
 def your_score(score):
     value = score_font.render(f"Your Score: {score}", True, WHITE)
     screen.blit(value, [0, 0])
 
+
+
 # Function to draw snake with a rounded or segmented look
+
 
 def our_snake(snake_block, snake_list):
     for x in snake_list:
@@ -80,13 +89,19 @@ def our_snake(snake_block, snake_list):
             snake_block // 2
         )
 
+
+
 # Function to display a message
+
 
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
     screen.blit(mesg, [SCREEN_WIDTH / 6, SCREEN_HEIGHT / 3])
 
+
+
 # Function to handle the game loop
+
 
 def game_loop():
     game_over = False
@@ -215,15 +230,23 @@ def game_loop():
     quit()
 
 
+
+
 # Button actions
+
+
 def start_game():
     game_loop()
+
 
 def quit_game():
     pygame.quit()
     quit()
 
+
+
 # Main menu
+
 
 def main_menu():
     screen.fill(BLUE)
