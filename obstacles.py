@@ -24,9 +24,11 @@ class Obstacles:
             oy = round(
                 random.randrange(0, self.screen_height - self.snake_block) / 10.0
             ) * 10.0
-            if [ox, oy] == self.snake_start or [ox, oy] == self.food_pos:
-                continue
-            if [ox, oy] in obstacles:
+            if (
+                [ox, oy] == self.snake_start or
+                [ox, oy] == self.food_pos or
+                [ox, oy] in obstacles
+            ):
                 continue
             obstacles.append([ox, oy])
         return obstacles
