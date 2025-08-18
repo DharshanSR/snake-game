@@ -1,8 +1,8 @@
 
 import pygame
-import time
 import random
 from obstacles import Obstacles
+
 
 # Initialize pygame
 pygame.init()
@@ -32,7 +32,9 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Snake Game')
 
 # Button class for Start, Restart, Finish
+
 class Button:
+
     def __init__(self, x, y, w, h, text, color, hover_color, action=None):
         self.rect = pygame.Rect(x, y, w, h)
         self.text = text
@@ -53,26 +55,39 @@ class Button:
 
         # Display button text
         text_surf = font_style.render(self.text, True, WHITE)
-        screen.blit(text_surf, (self.rect.x + (self.rect.width - text_surf.get_width()) // 2,
-                                self.rect.y + (self.rect.height - text_surf.get_height()) // 2))
+        screen.blit(
+            text_surf,
+            (
+                self.rect.x + (self.rect.width - text_surf.get_width()) // 2,
+                self.rect.y + (self.rect.height - text_surf.get_height()) // 2,
+            ),
+        )
 
 
 # Function to display score
+
 def your_score(score):
     value = score_font.render(f"Your Score: {score}", True, WHITE)
     screen.blit(value, [0, 0])
 
 # Function to draw snake with a rounded or segmented look
+
 def our_snake(snake_block, snake_list):
     for x in snake_list:
-        pygame.draw.circle(screen, GREEN, (x[0] + snake_block // 2, x[1] + snake_block // 2), snake_block // 2)
+        pygame.draw.circle(
+            screen, GREEN,
+            (x[0] + snake_block // 2, x[1] + snake_block // 2),
+            snake_block // 2
+        )
 
 # Function to display a message
+
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
     screen.blit(mesg, [SCREEN_WIDTH / 6, SCREEN_HEIGHT / 3])
 
 # Function to handle the game loop
+
 def game_loop():
     game_over = False
     game_close = False
@@ -90,12 +105,17 @@ def game_loop():
     length_of_snake = 1
 
     # Food
-    foodx = round(random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0) * 10.0
-    foody = round(random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
-
+    foodx = round(
+        random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0
+    ) * 10.0
+    foody = round(
+        random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0
+    ) * 10.0
 
     # Obstacles object
-    obstacles_obj = Obstacles(SCREEN_WIDTH, SCREEN_HEIGHT, SNAKE_BLOCK, [x1, y1], [foodx, foody])
+    obstacles_obj = Obstacles(
+        SCREEN_WIDTH, SCREEN_HEIGHT, SNAKE_BLOCK, [x1, y1], [foodx, foody]
+    )
 
     # Clock for controlling the speed
     clock = pygame.time.Clock()
@@ -133,7 +153,12 @@ def game_loop():
                     y1_change = SNAKE_BLOCK
                     x1_change = 0
 
-        if x1 >= SCREEN_WIDTH or x1 < 0 or y1 >= SCREEN_HEIGHT or y1 < 0:
+        if (
+            x1 >= SCREEN_WIDTH
+            or x1 < 0
+            or y1 >= SCREEN_HEIGHT
+            or y1 < 0
+        ):
             game_close = True
         x1 += x1_change
         y1 += y1_change
@@ -144,7 +169,9 @@ def game_loop():
         obstacles_obj.draw(screen)
 
         # Draw food
-        pygame.draw.rect(screen, RED, [foodx, foody, SNAKE_BLOCK, SNAKE_BLOCK])
+        pygame.draw.rect(
+            screen, RED, [foodx, foody, SNAKE_BLOCK, SNAKE_BLOCK]
+        )
 
         # Snake movement
         snake_head = [x1, y1]
@@ -166,18 +193,27 @@ def game_loop():
         pygame.display.update()
 
         if x1 == foodx and y1 == foody:
-            foodx = round(random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0) * 10.0
-            foody = round(random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
+            foodx = round(
+                random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0
+            ) * 10.0
+            foody = round(
+                random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0
+            ) * 10.0
             # Avoid placing food on obstacles
             while obstacles_obj.is_collision([foodx, foody]):
-                foodx = round(random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0) * 10.0
-                foody = round(random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
+                foodx = round(
+                    random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0
+                ) * 10.0
+                foody = round(
+                    random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0
+                ) * 10.0
             length_of_snake += 1
 
         clock.tick(SNAKE_SPEED)
 
     pygame.quit()
     quit()
+
 
 # Button actions
 def start_game():
@@ -188,10 +224,15 @@ def quit_game():
     quit()
 
 # Main menu
+
 def main_menu():
     screen.fill(BLUE)
-    start_button = Button(200, 150, 200, 50, "Start", DARK_GREEN, GREEN, start_game)
-    quit_button = Button(200, 250, 200, 50, "Quit", RED, DARK_GREEN, quit_game)
+    start_button = Button(
+        200, 150, 200, 50, "Start", DARK_GREEN, GREEN, start_game
+    )
+    quit_button = Button(
+        200, 250, 200, 50, "Quit", RED, DARK_GREEN, quit_game
+    )
 
     running = True
     while running:
@@ -205,6 +246,7 @@ def main_menu():
                 running = False
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main_menu()
