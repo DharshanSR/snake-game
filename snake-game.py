@@ -1,6 +1,8 @@
+
 import pygame
 import time
 import random
+from obstacles import Obstacles
 
 # Initialize pygame
 pygame.init()
@@ -91,6 +93,10 @@ def game_loop():
     foodx = round(random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0) * 10.0
     foody = round(random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
 
+
+    # Obstacles object
+    obstacles_obj = Obstacles(SCREEN_WIDTH, SCREEN_HEIGHT, SNAKE_BLOCK, [x1, y1], [foodx, foody])
+
     # Clock for controlling the speed
     clock = pygame.time.Clock()
 
@@ -131,7 +137,11 @@ def game_loop():
             game_close = True
         x1 += x1_change
         y1 += y1_change
+
         screen.fill(BLUE)
+
+        # Draw obstacles
+        obstacles_obj.draw(screen)
 
         # Draw food
         pygame.draw.rect(screen, RED, [foodx, foody, SNAKE_BLOCK, SNAKE_BLOCK])
@@ -146,6 +156,10 @@ def game_loop():
             if x == snake_head:
                 game_close = True
 
+        # Check collision with obstacles
+        if obstacles_obj.is_collision(snake_head):
+            game_close = True
+
         our_snake(SNAKE_BLOCK, snake_list)
         your_score(length_of_snake - 1)
 
@@ -154,6 +168,10 @@ def game_loop():
         if x1 == foodx and y1 == foody:
             foodx = round(random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0) * 10.0
             foody = round(random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
+            # Avoid placing food on obstacles
+            while obstacles_obj.is_collision([foodx, foody]):
+                foodx = round(random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK) / 10.0) * 10.0
+                foody = round(random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
             length_of_snake += 1
 
         clock.tick(SNAKE_SPEED)
